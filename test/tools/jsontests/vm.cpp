@@ -355,22 +355,6 @@ json_spirit::mValue VmTestSuite::doTests(json_spirit::mValue const& _input, bool
 			vmExceptionOccured = true;
 		}
 
-		// delete null entries in storage for the sake of comparison
-
-		for (auto  &a: fev.addresses)
-		{
-			vector<u256> keystoDelete;
-			for (auto &s: get<2>(a.second))
-			{
-				if (s.second == 0)
-					keystoDelete.push_back(s.first);
-			}
-			for (auto const key: keystoDelete )
-			{
-				get<2>(a.second).erase(key);
-			}
-		}
-
 		if (_fillin)
 		{
 			testOutput["env"] = mValue(fev.exportEnv());

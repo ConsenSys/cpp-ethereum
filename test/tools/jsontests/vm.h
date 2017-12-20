@@ -53,8 +53,8 @@ public:
 	FakeExtVM() = delete;
 	FakeExtVM(eth::EnvInfo const& _envInfo, unsigned _depth = 0);
 
-	virtual u256 store(u256 _n) override { return std::get<2>(addresses[myAddress])[_n]; }
-	virtual void setStore(u256 _n, u256 _v) override { std::get<2>(addresses[myAddress])[_n] = _v; }
+	virtual u256 store(u256 _n) override { return !!std::get<2>(addresses[myAddress]).count(_n) ? std::get<2>(addresses[myAddress])[_n] : u256(); }
+	virtual void setStore(u256 _n, u256 _v) override { if (_v == 0) return; std::get<2>(addresses[myAddress])[_n] = _v; }
 	virtual bool exists(Address _a) override { return !!addresses.count(_a); }
 	virtual u256 balance(Address _a) override { return exists(_a) ? std::get<0>(addresses[_a]) : u256(); }
 	virtual void suicide(Address _a) override { std::get<0>(addresses[_a]) += std::get<0>(addresses[myAddress]); }
