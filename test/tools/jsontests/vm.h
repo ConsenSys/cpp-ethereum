@@ -51,7 +51,7 @@ class FakeExtVM: public eth::ExtVMFace
 {
 public:
 	FakeExtVM() = delete;
-	FakeExtVM(eth::EnvInfo const& _envInfo, unsigned _depth = 0);
+	FakeExtVM(eth::EnvInfo const& _envInfo, unsigned _depth = 0, eth::EVMSchedule _schedule = eth::DefaultSchedule);
 
 	virtual u256 store(u256 _n) override { return std::get<2>(addresses[myAddress])[_n]; }
 	virtual void setStore(u256 _n, u256 _v) override { std::get<2>(addresses[myAddress])[_n] = _v; }
@@ -85,6 +85,7 @@ public:
 	bytes thisTxCode;
 	u256 gas;
 	u256 execGas;
+	eth::EVMSchedule schedule;
 };
 
 class VmTestSuite: public TestSuite
