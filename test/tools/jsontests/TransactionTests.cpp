@@ -105,6 +105,9 @@ json_spirit::mObject FillTransactionTest(json_spirit::mObject const& _o)
 			mObject resultObject;
 			resultObject["sender"] = toString(txFromFields.sender());
 			resultObject["hash"] = toString(txFromFields.sha3());
+			// The first successfull network test adds the transaction field back
+			if (out.count("transaction") == 0)
+				out["transaction"] = ImportTest::makeAllFieldsHex(tObj);
 			out[test::netIdToString(network)] = resultObject;
 		}
 		catch (Exception const& _e)
